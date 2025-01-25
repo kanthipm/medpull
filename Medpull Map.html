@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body { margin: 0; display: flex; height: 100vh; }
+        #map { flex: 3; height: 100%; }
+        #sidebar {
+            flex: 1;
+            height: 100%;
+            overflow-y: auto;
+            border-left: 1px solid #ccc;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+        .sidebar-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .health-center {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            cursor: pointer;
+        }
+        .health-center:hover {
+            background: #e9ecef;
+        }
+        .highlight {
+            background: #d1e7ff;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Health Centers</title>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="sidebar">
+        <div class="sidebar-header">Community Health Centers</div>
+        <div id="health-center-list">Loading...</div>
+    </div>
+
+    <script>
+        var map = L.map('map');
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var redIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+        });
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return (R * c).toFixed(2); 
+        }
+
+        function fetchHealthCenters(lat, lng) {
+            var radius = 0.3; 
+            var minLat = lat - radius;
+            var maxLat = lat + radius;
+            var minLng = lng - radius;
+            var maxLng = lng + radius;
+
+            var query = `
+                [out:json][timeout:25];
+                (
+                    node["amenity"="clinic"](${minLat},${minLng},${maxLat},${maxLng});
+                    node["amenity"="hospital"](${minLat},${minLng},${maxLat},${maxLng});
+                    node["healthcare"](${minLat},${minLng},${maxLat},${maxLng});
+                );
+                out body;
+            `;
+
+            fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
+                .then(response => response.json())
+                .then(data => {
+                    const listElement = document.getElementById('health-center-list');
+                    listElement.innerHTML = ''; 
+
+                    data.elements.forEach((center, index) => {
+                        if (center.lat && center.lon) {
+                            const name = center.tags.name || "Health Center";
+                            const address = center.tags.address || "No address provided";
+                            const distance = calculateDistance(lat, lng, center.lat, center.lon);
+
+                            const marker = L.marker([center.lat, center.lon], { icon: redIcon })
+                                .addTo(map)
+                                .bindPopup(`<strong>${name}</strong><br>Distance: ${distance} km`);
+
+                            const centerElement = document.createElement('div');
+                            centerElement.classList.add('health-center');
+                            centerElement.setAttribute('id', `health-center-${index}`);
+                            centerElement.innerHTML = `
+                                <strong>${name}</strong><br>
+                                Address: ${address}<br>
+                                Distance: ${distance} km
+                            `;
+
+                            marker.on('click', () => {
+                                const targetElement = document.getElementById(`health-center-${index}`);
+                                listElement.querySelectorAll('.health-center').forEach(el => el.classList.remove('highlight'));
+                                targetElement.classList.add('highlight');
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            });
+
+                            centerElement.addEventListener('click', () => {
+                                map.setView([center.lat, center.lon], 15);
+                                marker.openPopup();
+                            });
+
+                            listElement.appendChild(centerElement);
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error("Error fetching data:", err);
+                    document.getElementById('health-center-list').innerHTML = 'Error loading health centers.';
+                });
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    map.setView([lat, lng], 13);
+                    fetchHealthCenters(lat, lng);
+                },
+                function (error) {
+                    console.error("Geolocation error:", error.message);
+                    alert("Unable to fetch your location. Please enable location services.");
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    </script>
+</body>
+</html>
+
