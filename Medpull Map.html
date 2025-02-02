@@ -94,8 +94,7 @@
         });
 
         const healthCenters = {};
-        const inventoryData = {};
-        const priceData = {};
+        const inventoryData = {}; // { "Health Center": { "Medication": { price: X, inventory: Y } } }
         const markers = {};
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -110,21 +109,24 @@
             return (R * c).toFixed(2);
         }
 
-        function updateSidebar(filteredCenters) {
+        function updateSidebar(filteredCenters, medicationFilter) {
             const sortBy = document.getElementById('sort-dropdown').value;
             const sidebarList = document.getElementById('health-center-list');
             sidebarList.innerHTML = ''; // Clear existing entries
 
             // Sort centers based on the selected criteria
             const sortedCenters = [...filteredCenters].sort((a, b) => {
-                if (sortBy === 'price') {
-                    return priceData[a.name] - priceData[b.name];
+                if (sortBy === 'price' && medicationFilter) {
+                    const priceA = inventoryData[a.name]?.[medicationFilter]?.price || Infinity;
+                    const priceB = inventoryData[b.name]?.[medicationFilter]?.price || Infinity;
+                    return priceA - priceB;
                 }
                 return a.distance - b.distance; // Default to distance
             });
 
             sortedCenters.forEach(center => {
                 const { name, address, hours, specializations, distance } = center;
+                const price = medicationFilter ? inventoryData[name]?.[medicationFilter]?.price : "N/A";
 
                 const centerElement = document.createElement('div');
                 centerElement.classList.add('health-center');
@@ -134,7 +136,7 @@
                         <p><strong>Address:</strong> ${address}</p>
                         <p><strong>Hours:</strong> ${hours}</p>
                         <p><strong>Specializations:</strong> ${specializations}</p>
-                        <p><strong>Price:</strong> $${priceData[name] || 'N/A'}</p>
+                        <p><strong>Price:</strong> $${price}</p>
                     </div>
                 `;
 
@@ -159,13 +161,13 @@
             Object.values(markers).forEach(marker => map.removeLayer(marker)); // Remove all markers
 
             Object.values(healthCenters).forEach(center => {
-                if (!medicationFilter || inventoryData[center.name]?.includes(medicationFilter)) {
+                if (!medicationFilter || (inventoryData[center.name]?.[medicationFilter])) {
                     addMarker(center);
                     filteredCenters.push(center); // Add to the list of filtered centers
                 }
             });
 
-            updateSidebar(filteredCenters); // Update the sidebar with filtered centers
+            updateSidebar(filteredCenters, medicationFilter); // Update the sidebar with filtered centers
         }
 
         function addMarker(center) {
@@ -194,7 +196,10 @@
         function populateDropdown() {
             const dropdown = document.getElementById('medication-dropdown');
             const medications = new Set();
-            Object.values(inventoryData).flat().forEach(med => medications.add(med));
+            Object.values(inventoryData).forEach(centerData => {
+                Object.keys(centerData).forEach(medication => medications.add(medication));
+            });
+
             medications.forEach(med => {
                 const option = document.createElement('option');
                 option.value = med;
@@ -215,9 +220,9 @@
                                 const center = row["Health Center"];
                                 const medication = row["Medication"];
                                 const price = parseFloat(row["Price"]) || 0;
-                                if (!inventoryData[center]) inventoryData[center] = [];
-                                inventoryData[center].push(medication);
-                                priceData[center] = Math.min(priceData[center] || Infinity, price);
+
+                                if (!inventoryData[center]) inventoryData[center] = {};
+                                inventoryData[center][medication] = { price };
                             });
                             populateDropdown();
                         }
@@ -257,7 +262,7 @@
                             });
 
                             Promise.all(geocodePromises).then(() => {
-                                updateSidebar(Object.values(healthCenters)); // Initialize sidebar with all centers
+                                updateSidebar(Object.values(healthCenters), ""); // Initialize sidebar with all centers
                             });
                         }
                     });
@@ -280,4 +285,5 @@
     </script>
 </body>
 </html>
+
 
