@@ -1,15 +1,12 @@
 Health Center,Medication,Inventory Count,Price
 Harris County Public Health Humble Clinic,Ibuprofen (200mg),138,$9
-Harris County Public Health Humble Clinic,Acetaminophen (500mg),94,$2
 Harris County Public Health Humble Clinic,Amoxicillin (500mg capsules),34,$6
 Harris County Public Health Humble Clinic,Lisinopril (10mg),174,$1
-Harris County Public Health Humble Clinic,Metformin (500mg),18,$8
 Harris County Public Health Humble Clinic,Amlodipine (5mg),178,$8
 Harris County Public Health Humble Clinic,Albuterol (inhaler),15,$10
 Harris County Public Health Humble Clinic,Hydrochlorothiazide (25mg),131,$5
 Harris County Public Health Humble Clinic,Simvastatin (20mg),62,$7
 Harris County Public Health Humble Clinic,Omeprazole (20mg capsules),108,$3
-Harris County Public Health Southeast Clinic,Ibuprofen (200mg),72,$3
 Harris County Public Health Southeast Clinic,Acetaminophen (500mg),86,$7
 Harris County Public Health Southeast Clinic,Amoxicillin (500mg capsules),113,$2
 Harris County Public Health Southeast Clinic,Lisinopril (10mg),162,$3
@@ -19,14 +16,12 @@ Harris County Public Health Southeast Clinic,Albuterol (inhaler),62,$4
 Harris County Public Health Southeast Clinic,Hydrochlorothiazide (25mg),158,$3
 Harris County Public Health Southeast Clinic,Simvastatin (20mg),21,$5
 Harris County Public Health Southeast Clinic,Omeprazole (20mg capsules),188,$8
-Harris County Public Health Antoine Clinic,Ibuprofen (200mg),108,$2
 Harris County Public Health Antoine Clinic,Acetaminophen (500mg),24,$3
 Harris County Public Health Antoine Clinic,Amoxicillin (500mg capsules),63,$7
 Harris County Public Health Antoine Clinic,Lisinopril (10mg),152,$7
 Harris County Public Health Antoine Clinic,Metformin (500mg),21,$2
 Harris County Public Health Antoine Clinic,Amlodipine (5mg),118,$6
 Harris County Public Health Antoine Clinic,Albuterol (inhaler),38,$5
-Harris County Public Health Antoine Clinic,Hydrochlorothiazide (25mg),26,$8
 Harris County Public Health Antoine Clinic,Simvastatin (20mg),32,$7
 Harris County Public Health Antoine Clinic,Omeprazole (20mg capsules),186,$9
 Thomas Street at Quentin Mease Health Center,Ibuprofen (200mg),189,$6
@@ -47,7 +42,6 @@ Ben Taub Hospital,Metformin (500mg),165,$6
 Ben Taub Hospital,Amlodipine (5mg),66,$6
 Ben Taub Hospital,Albuterol (inhaler),177,$6
 Ben Taub Hospital,Hydrochlorothiazide (25mg),46,$1
-Ben Taub Hospital,Simvastatin (20mg),188,$8
 Ben Taub Hospital,Omeprazole (20mg capsules),42,$1
 UT Physicians Family Medicine Clinic-TMC,Ibuprofen (200mg),95,$2
 UT Physicians Family Medicine Clinic-TMC,Acetaminophen (500mg),181,$6
@@ -72,8 +66,6 @@ UT Physicians Family Practice â€“ Bellaire,Omeprazole (20mg capsules),80,$1
 Memorial Hermann Neighborhood Health Center - Greater Heights,Ibuprofen (200mg),82,$3
 Memorial Hermann Neighborhood Health Center - Greater Heights,Acetaminophen (500mg),133,$3
 Memorial Hermann Neighborhood Health Center - Greater Heights,Amoxicillin (500mg capsules),172,$8
-Memorial Hermann Neighborhood Health Center - Greater Heights,Lisinopril (10mg),105,$6
-Memorial Hermann Neighborhood Health Center - Greater Heights,Metformin (500mg),37,$8
 Memorial Hermann Neighborhood Health Center - Greater Heights,Amlodipine (5mg),33,$9
 Memorial Hermann Neighborhood Health Center - Greater Heights,Albuterol (inhaler),181,$1
 Memorial Hermann Neighborhood Health Center - Greater Heights,Hydrochlorothiazide (25mg),68,$4
