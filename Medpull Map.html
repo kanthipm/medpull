@@ -21,7 +21,7 @@
             margin-bottom: 10px;
         }
         .health-center {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -94,7 +94,7 @@
         });
 
         const healthCenters = {};
-        const inventoryData = {}; // { "Health Center": { "Medication": { price: X, inventory: Y } } }
+        const inventoryData = {};
         const markers = {};
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -126,28 +126,26 @@
 
             sortedCenters.forEach(center => {
                 const { name, address, hours, specializations, distance } = center;
-                const price = medicationFilter ? inventoryData[name]?.[medicationFilter]?.price : "N/A";
+                const price = medicationFilter && inventoryData[name]?.[medicationFilter]?.price
+                    ? `$${inventoryData[name][medicationFilter].price}`
+                    : null;
 
                 const centerElement = document.createElement('div');
                 centerElement.classList.add('health-center');
                 centerElement.innerHTML = `
                     <strong>${name}</strong> (<em>${distance} miles</em>)
+                    ${price ? `<div style="margin-top: 5px;"><strong>Price:</strong> ${price}</div>` : ""}
                     <div class="details">
                         <p><strong>Address:</strong> ${address}</p>
                         <p><strong>Hours:</strong> ${hours}</p>
                         <p><strong>Specializations:</strong> ${specializations}</p>
-                        <p><strong>Price:</strong> $${price}</p>
                     </div>
                 `;
 
                 const details = centerElement.querySelector('.details');
                 centerElement.addEventListener('click', () => {
-                    // Toggle the expanded view
-                    const isExpanded = details.classList.contains('expanded');
                     document.querySelectorAll('.details').forEach(el => el.classList.remove('expanded'));
-                    if (!isExpanded) details.classList.add('expanded');
-
-                    // Focus map on the selected marker
+                    details.classList.add('expanded');
                     map.setView([center.lat, center.lon], 15);
                     markers[name].openPopup();
                 });
@@ -167,7 +165,7 @@
                 }
             });
 
-            updateSidebar(filteredCenters, medicationFilter); // Update the sidebar with filtered centers
+            updateSidebar(filteredCenters, medicationFilter);
         }
 
         function addMarker(center) {
@@ -178,7 +176,6 @@
                     .bindPopup(`<strong>${name}</strong><br>${address}`);
                 markers[name] = marker;
 
-                // Marker click syncs with sidebar
                 marker.on('click', () => {
                     const sidebarEntries = document.querySelectorAll('.health-center');
                     sidebarEntries.forEach(entry => {
@@ -219,7 +216,7 @@
                             results.data.forEach(row => {
                                 const center = row["Health Center"];
                                 const medication = row["Medication"];
-                                const price = parseFloat(row["Price"]) || 0;
+                                const price = parseFloat(row["Price"].replace(/[^0-9.]/g, '')) || 0;
 
                                 if (!inventoryData[center]) inventoryData[center] = {};
                                 inventoryData[center][medication] = { price };
