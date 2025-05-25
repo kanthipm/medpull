@@ -297,8 +297,9 @@
             filterHealthCenters(document.getElementById('medication-dropdown').value);
         });
 
-        const healthCentersUrl = "https://raw.githubusercontent.com/kanthipm/medpull/chc_map/hc_data.csv";
-        const inventoryUrl = "https://raw.githubusercontent.com/kanthipm/medpull/chc_map/inventory.csv";
+        const healthCentersUrl = "https://raw.githubusercontent.com/kanthipm/medpull/main/chc_map/hc_data.csv";
+        const inventoryUrl = "https://raw.githubusercontent.com/kanthipm/medpull/main/chc_map/inventory.csv";
+
 
         fetchInventoryData(inventoryUrl).then(() => fetchHealthCenters(healthCentersUrl));
     </script>
