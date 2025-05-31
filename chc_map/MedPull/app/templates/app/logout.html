@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    <center>
+    <form method="POST" action="">
+            {% csrf_token %}
+            {{form.as_p}}
+            <h1>Are you sure you want to logout? </h1>
+            <input type="submit" value="logout">
+            
+        </form>
+        <a class="small" href = "{% url 'app:home' %}">Home</a>
+    </center>
+</div>
+
+{% endblock content %}
