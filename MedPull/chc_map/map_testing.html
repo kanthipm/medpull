@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; height: 100vh; }
+        #map { flex: 3; height: 100%; }
+        #sidebar {
+            flex: 1;
+            height: 100%;
+            overflow-y: auto;
+            border-left: 1px solid #ccc;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+        .sidebar-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .health-center {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            cursor: pointer;
+        }
+        .health-center:hover {
+            background: #e9ecef;
+        }
+        .highlight {
+            background: #d1e7ff;
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+        }
+        .details.expanded {
+            display: block;
+        }
+        #filter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #filter input, #filter select, #filter button {
+            margin: 5px 0;
+            padding: 5px;
+            width: 100%;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Health Centers</title>
+</head>
+<body>
+    <div id="filter">
+        <label for="zip-input">Enter ZIP Code:</label>
+        <input type="text" id="zip-input" placeholder="Enter ZIP Code" />
+        <button id="update-zip">Update Location</button>
+        <label for="medication-dropdown">Filter by Medication:</label>
+        <select id="medication-dropdown">
+            <option value="">All Medications</option>
+        </select>
+        <label for="sort-dropdown">Sort by:</label>
+        <select id="sort-dropdown">
+            <option value="distance">Distance</option>
+            <option value="price">Price</option>
+        </select>
+    </div>
+    <div id="map"></div>
+    <div id="sidebar">
+        <div class="sidebar-header">Community Health Centers</div>
+        <div id="health-center-list"></div>
+    </div>
+
+    <script>
+        const API_KEY = "a80b282e59c8443b86a0e293d599595e"; // OpenCage API Key
+        let referenceLat = 29.7604; // Default latitude (Houston)
+        let referenceLon = -95.3698; // Default longitude (Houston)
+
+        var map = L.map('map').setView([referenceLat, referenceLon], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var redIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+        });
+
+        const healthCenters = {};
+        const inventoryData = {};
+        const markers = {};
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 3958.8; // Radius of the Earth in miles
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return (R * c).toFixed(2);
+        }
+
+        async function fetchCoordinates(address) {
+            const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&countrycode=US&key=${API_KEY}`);
+            const data = await response.json();
+            if (data.results.length > 0) {
+                const { lat, lng } = data.results[0].geometry;
+                return { lat, lng };
+            }
+            throw new Error(`Could not geocode address: ${address}`);
+        }
+
+        function populateDropdown() {
+            const dropdown = document.getElementById('medication-dropdown');
+            const medications = new Set();
+            Object.values(inventoryData).forEach(centerData => {
+                Object.keys(centerData).forEach(medication => medications.add(medication));
+            });
+
+            dropdown.innerHTML = '<option value="">All Medications</option>';
+            medications.forEach(med => {
+                const option = document.createElement('option');
+                option.value = med;
+                option.textContent = med;
+                dropdown.appendChild(option);
+            });
+        }
+
+        function updateSidebar(filteredCenters, medicationFilter) {
+            const sortBy = document.getElementById('sort-dropdown').value;
+            const sidebarList = document.getElementById('health-center-list');
+            sidebarList.innerHTML = ''; // Clear existing entries
+
+            const sortedCenters = [...filteredCenters].sort((a, b) => {
+                if (sortBy === 'price' && medicationFilter) {
+                    const priceA = inventoryData[a.name]?.[medicationFilter]?.price || Infinity;
+                    const priceB = inventoryData[b.name]?.[medicationFilter]?.price || Infinity;
+                    return priceA - priceB;
+                }
+                return a.distance - b.distance; // Default to distance
+            });
+
+            sortedCenters.forEach(center => {
+                const { name, address, hours, specializations, distance } = center;
+                const price = medicationFilter && inventoryData[name]?.[medicationFilter]?.price
+                    ? `${medicationFilter} Price: $${inventoryData[name][medicationFilter].price}`
+                    : null;
+
+                const centerElement = document.createElement('div');
+                centerElement.classList.add('health-center');
+                centerElement.innerHTML = `
+                    <strong>${name}</strong> (<em>${distance} miles</em>)
+                    ${price ? `<div style="margin-top: 5px;"><strong>${price}</strong></div>` : ""}
+                    <div class="details">
+                        <p><strong>Address:</strong> ${address}</p>
+                        <p><strong>Hours:</strong> ${hours}</p>
+                        <p><strong>Specializations:</strong> ${specializations}</p>
+                    </div>
+                `;
+
+                const details = centerElement.querySelector('.details');
+                centerElement.addEventListener('click', () => {
+                    document.querySelectorAll('.details').forEach(el => el.classList.remove('expanded'));
+                    details.classList.add('expanded');
+                    map.setView([center.lat, center.lon], 15);
+                    markers[name].openPopup();
+                });
+
+                sidebarList.appendChild(centerElement);
+            });
+        }
+
+        async function fetchInventoryData(csvUrl) {
+            const response = await fetch(csvUrl);
+            const csvText = await response.text();
+
+            Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    results.data.forEach(row => {
+                        const center = row["Health Center"];
+                        const medication = row["Medication"];
+                        const price = parseFloat(row["Price"].replace(/[^0-9.]/g, '')) || 0;
+
+                        if (!inventoryData[center]) inventoryData[center] = {};
+                        inventoryData[center][medication] = { price };
+                    });
+                    populateDropdown(); // Populate the medication dropdown
+                }
+            });
+        }
+
+        async function fetchHealthCenters(csvUrl) {
+            const response = await fetch(csvUrl);
+            const csvText = await response.text();
+
+            Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                complete: async function(results) {
+                    for (const center of results.data) {
+                        const { "Health Center": name, Address: address, "Hours of Operation": hours, Specializations: specializations } = center;
+
+                        try {
+                            const { lat, lng } = await fetchCoordinates(address);
+                            const distance = calculateDistance(referenceLat, referenceLon, lat, lng);
+
+                            healthCenters[name] = { name, address, hours, specializations, lat, lng, distance };
+                            addMarker(healthCenters[name]);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    updateSidebar(Object.values(healthCenters), ""); // Populate the sidebar
+                }
+            });
+        }
+
+        function addMarker(center) {
+            const { lat, lng, name, address } = center;
+
+            if (!markers[name]) {
+                const marker = L.marker([lat, lng], { icon: redIcon })
+                    .bindPopup(`<strong>${name}</strong><br>${address}`);
+                markers[name] = marker;
+
+                marker.on('click', () => {
+                    map.setView([lat, lng], 15);
+                });
+            }
+
+            map.addLayer(markers[name]);
+        }
+
+        async function updateLocation() {
+            const zipCode = document.getElementById('zip-input').value.trim();
+            if (!zipCode) {
+                alert("Please enter a valid ZIP code.");
+                return;
+            }
+
+            try {
+                const { lat, lng } = await fetchCoordinates(zipCode);
+                referenceLat = lat;
+                referenceLon = lng;
+
+                map.setView([lat, lng], 12);
+                Object.values(healthCenters).forEach(center => {
+                    center.distance = calculateDistance(lat, lng, center.lat, center.lon);
+                });
+                filterHealthCenters(document.getElementById('medication-dropdown').value);
+            } catch (error) {
+                alert("Invalid ZIP code. Please try again.");
+                console.error(error);
+            }
+        }
+
+        function filterHealthCenters(medicationFilter) {
+            const filteredCenters = [];
+            Object.values(markers).forEach(marker => map.removeLayer(marker)); // Remove all markers
+
+            Object.values(healthCenters).forEach(center => {
+                if (!medicationFilter || (inventoryData[center.name]?.[medicationFilter])) {
+                    addMarker(center);
+                    filteredCenters.push(center); // Add to the list of filtered centers
+                }
+            });
+
+            updateSidebar(filteredCenters, medicationFilter); // Update the sidebar with filtered centers
+        }
+
+        document.getElementById('update-zip').addEventListener('click', updateLocation);
+
+        document.getElementById('medication-dropdown').addEventListener('change', (e) => {
+            const medicationFilter = e.target.value;
+            filterHealthCenters(medicationFilter);
+        });
+
+        document.getElementById('sort-dropdown').addEventListener('change', () => {
+            filterHealthCenters(document.getElementById('medication-dropdown').value);
+        });
+
+        const healthCentersUrl = "https://raw.githubusercontent.com/kanthipm/medpull/main/chc_map/hc_data.csv";
+        const inventoryUrl = "https://raw.githubusercontent.com/kanthipm/medpull/main/chc_map/inventory.csv";
+
+
+        fetchInventoryData(inventoryUrl).then(() => fetchHealthCenters(healthCentersUrl));
+    </script>
+</body>
+</html>
+
