@@ -2,13 +2,21 @@
 
 {% block content %}
 <div class="form-container">
-    <h2>Upload a Form to Translate</h2>
+    <h2>Upload or Select a Form to Translate</h2>
     
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        <label for="pdf_file"><strong>Select PDF file:</strong></label><br>
-        <input type="file" name="pdf_file" accept="application/pdf" required><br><br>
+
+        <label for="pdf_file"><strong>Option 1: Upload your own PDF</strong></label><br>
+        <input type="file" name="pdf_file" accept="application/pdf"><br><br>
+
+        <label for="static_form"><strong>Option 2: Select a form from our library</strong></label><br>
+        <select name="static_form">
+            <option value="">-- Choose a form --</option>
+            {% for form in available_forms %}
+                <option value="{{ form }}">{{ form }}</option>
+            {% endfor %}
+        </select><br><br>
 
         <label for="language"><strong>Translate to:</strong></label><br>
         <select name="language" required>
@@ -32,4 +40,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
