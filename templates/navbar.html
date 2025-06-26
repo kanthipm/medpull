@@ -1,0 +1,14 @@
+{% if request.user.is_authenticated %}
+  <nav class="topnav">
+    <a href="{% url 'app:home' %}">home</a>
+    <a href="{% url 'app:information' %}">fill out your information</a>
+    <a href="{% url 'app:translate' %}">translate a form</a>
+    <a href="{% url 'app:extract' %}">extract a form</a>   <!-- ✅ New tab -->
+    <a href="{% url 'app:logout' %}">logout</a>
+  </nav>
+{% else %}
+  <nav class="topnav">
+    <a href="{% url 'app:home' %}">home</a>
+    <a href="{% url 'app:login' %}">login/register</a>
+  </nav>
+{% endif %}

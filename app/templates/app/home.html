@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="home-container">
+  <div></div> 
+
+  <div>
+    <article class="media content-section">
+      <div class="media-body home-header">
+        <h1>
+          {% if request.user.is_authenticated %}
+            Welcome to MedPull, {{ request.user.username }}!
+          {% else %}
+            Welcome to MedPull!
+          {% endif %}
+        </h1>
+        <hr>
+      </div>
+    </article>
+  </div>
+
+  <div></div> 
+</div>
+{% endblock content %}

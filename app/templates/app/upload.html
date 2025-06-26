@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Upload or Select a Form to Translate</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="pdf_file"><strong>Option 1: Upload your own PDF</strong></label><br>
+        <input type="file" name="pdf_file" accept="application/pdf"><br><br>
+
+        <label for="static_form"><strong>Option 2: Select a form from our library</strong></label><br>
+        <select name="static_form">
+            <option value="">-- Choose a form --</option>
+            {% for form in available_forms %}
+                <option value="{{ form }}">{{ form }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="language"><strong>Translate to:</strong></label><br>
+        <select name="language" required>
+            <option value="es">Spanish</option>
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="zh">Chinese</option>
+        </select><br><br>
+
+        <button type="submit">Translate</button>
+    </form>
+
+    {% if translated_text %}
+    <hr>
+    <div class="translated-output">
+        <h3>Translated Text:</h3>
+        <pre style="white-space: pre-wrap; background-color: #f8f8f8; padding: 1em; border: 1px solid #ccc; border-radius: 5px;">
+{{ translated_text }}
+        </pre>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

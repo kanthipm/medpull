@@ -1,0 +1,182 @@
+Health Center,Medication,Inventory Count,Price
+Harris County Public Health Humble Clinic,Amoxicillin (500mg capsules),34,$6
+Harris County Public Health Humble Clinic,Lisinopril (10mg),174,$1
+Harris County Public Health Humble Clinic,Amlodipine (5mg),178,$8
+Harris County Public Health Humble Clinic,Albuterol (inhaler),15,$10
+Harris County Public Health Humble Clinic,Hydrochlorothiazide (25mg),131,$5
+Harris County Public Health Humble Clinic,Simvastatin (20mg),62,$7
+Harris County Public Health Humble Clinic,Omeprazole (20mg capsules),108,$3
+Harris County Public Health Southeast Clinic,Acetaminophen (500mg),86,$7
+Harris County Public Health Southeast Clinic,Amoxicillin (500mg capsules),113,$2
+Harris County Public Health Southeast Clinic,Lisinopril (10mg),162,$3
+Harris County Public Health Southeast Clinic,Metformin (500mg),41,$8
+Harris County Public Health Southeast Clinic,Amlodipine (5mg),104,$3
+Harris County Public Health Southeast Clinic,Albuterol (inhaler),62,$4
+Harris County Public Health Southeast Clinic,Hydrochlorothiazide (25mg),158,$3
+Harris County Public Health Southeast Clinic,Simvastatin (20mg),21,$5
+Harris County Public Health Southeast Clinic,Omeprazole (20mg capsules),188,$8
+Harris County Public Health Antoine Clinic,Acetaminophen (500mg),24,$3
+Harris County Public Health Antoine Clinic,Amoxicillin (500mg capsules),63,$7
+Harris County Public Health Antoine Clinic,Lisinopril (10mg),152,$7
+Harris County Public Health Antoine Clinic,Metformin (500mg),21,$2
+Harris County Public Health Antoine Clinic,Amlodipine (5mg),118,$6
+Harris County Public Health Antoine Clinic,Albuterol (inhaler),38,$5
+Harris County Public Health Antoine Clinic,Simvastatin (20mg),32,$7
+Harris County Public Health Antoine Clinic,Omeprazole (20mg capsules),186,$9
+Thomas Street at Quentin Mease Health Center,Ibuprofen (200mg),189,$6
+Thomas Street at Quentin Mease Health Center,Acetaminophen (500mg),51,$3
+Thomas Street at Quentin Mease Health Center,Amoxicillin (500mg capsules),133,$6
+Thomas Street at Quentin Mease Health Center,Lisinopril (10mg),140,$6
+Thomas Street at Quentin Mease Health Center,Metformin (500mg),106,$9
+Thomas Street at Quentin Mease Health Center,Amlodipine (5mg),96,$1
+Thomas Street at Quentin Mease Health Center,Albuterol (inhaler),35,$8
+Thomas Street at Quentin Mease Health Center,Hydrochlorothiazide (25mg),48,$8
+Thomas Street at Quentin Mease Health Center,Simvastatin (20mg),142,$4
+Thomas Street at Quentin Mease Health Center,Omeprazole (20mg capsules),13,$2
+Ben Taub Hospital,Ibuprofen (200mg),111,$2
+Ben Taub Hospital,Acetaminophen (500mg),23,$3
+Ben Taub Hospital,Amoxicillin (500mg capsules),12,$4
+Ben Taub Hospital,Lisinopril (10mg),123,$3
+Ben Taub Hospital,Metformin (500mg),165,$6
+Ben Taub Hospital,Amlodipine (5mg),66,$6
+Ben Taub Hospital,Albuterol (inhaler),177,$6
+Ben Taub Hospital,Hydrochlorothiazide (25mg),46,$1
+Ben Taub Hospital,Omeprazole (20mg capsules),42,$1
+UT Physicians Family Medicine Clinic-TMC,Ibuprofen (200mg),95,$2
+UT Physicians Family Medicine Clinic-TMC,Acetaminophen (500mg),181,$6
+UT Physicians Family Medicine Clinic-TMC,Amoxicillin (500mg capsules),157,$7
+UT Physicians Family Medicine Clinic-TMC,Lisinopril (10mg),110,$1
+UT Physicians Family Medicine Clinic-TMC,Metformin (500mg),160,$5
+UT Physicians Family Medicine Clinic-TMC,Amlodipine (5mg),117,$4
+UT Physicians Family Medicine Clinic-TMC,Albuterol (inhaler),91,$10
+UT Physicians Family Medicine Clinic-TMC,Hydrochlorothiazide (25mg),146,$8
+UT Physicians Family Medicine Clinic-TMC,Simvastatin (20mg),30,$2
+UT Physicians Family Medicine Clinic-TMC,Omeprazole (20mg capsules),28,$2
+UT Physicians Family Practice â€“ Bellaire,Ibuprofen (200mg),179,$7
+UT Physicians Family Practice â€“ Bellaire,Acetaminophen (500mg),29,$7
+UT Physicians Family Practice â€“ Bellaire,Amoxicillin (500mg capsules),153,$5
+UT Physicians Family Practice â€“ Bellaire,Lisinopril (10mg),144,$1
+UT Physicians Family Practice â€“ Bellaire,Metformin (500mg),120,$7
+UT Physicians Family Practice â€“ Bellaire,Amlodipine (5mg),85,$6
+UT Physicians Family Practice â€“ Bellaire,Albuterol (inhaler),33,$9
+UT Physicians Family Practice â€“ Bellaire,Hydrochlorothiazide (25mg),175,$8
+UT Physicians Family Practice â€“ Bellaire,Simvastatin (20mg),92,$5
+UT Physicians Family Practice â€“ Bellaire,Omeprazole (20mg capsules),80,$1
+Memorial Hermann Neighborhood Health Center - Greater Heights,Ibuprofen (200mg),82,$3
+Memorial Hermann Neighborhood Health Center - Greater Heights,Acetaminophen (500mg),133,$3
+Memorial Hermann Neighborhood Health Center - Greater Heights,Amoxicillin (500mg capsules),172,$8
+Memorial Hermann Neighborhood Health Center - Greater Heights,Amlodipine (5mg),33,$9
+Memorial Hermann Neighborhood Health Center - Greater Heights,Albuterol (inhaler),181,$1
+Memorial Hermann Neighborhood Health Center - Greater Heights,Hydrochlorothiazide (25mg),68,$4
+Memorial Hermann Neighborhood Health Center - Greater Heights,Simvastatin (20mg),183,$7
+Memorial Hermann Neighborhood Health Center - Greater Heights,Omeprazole (20mg capsules),50,$2
+Memorial Hermann Neighborhood Health Center - Northeast,Ibuprofen (200mg),127,$8
+Memorial Hermann Neighborhood Health Center - Northeast,Acetaminophen (500mg),98,$2
+Memorial Hermann Neighborhood Health Center - Northeast,Amoxicillin (500mg capsules),185,$3
+Memorial Hermann Neighborhood Health Center - Northeast,Lisinopril (10mg),120,$2
+Memorial Hermann Neighborhood Health Center - Northeast,Metformin (500mg),68,$6
+Memorial Hermann Neighborhood Health Center - Northeast,Amlodipine (5mg),144,$1
+Memorial Hermann Neighborhood Health Center - Northeast,Albuterol (inhaler),196,$9
+Memorial Hermann Neighborhood Health Center - Northeast,Hydrochlorothiazide (25mg),200,$8
+Memorial Hermann Neighborhood Health Center - Northeast,Simvastatin (20mg),149,$2
+Memorial Hermann Neighborhood Health Center - Northeast,Omeprazole (20mg capsules),73,$2
+Memorial Hermann Neighborhood Health Center - Southwest,Ibuprofen (200mg),93,$7
+Memorial Hermann Neighborhood Health Center - Southwest,Acetaminophen (500mg),71,$7
+Memorial Hermann Neighborhood Health Center - Southwest,Amoxicillin (500mg capsules),59,$6
+Memorial Hermann Neighborhood Health Center - Southwest,Lisinopril (10mg),186,$3
+Memorial Hermann Neighborhood Health Center - Southwest,Metformin (500mg),177,$1
+Memorial Hermann Neighborhood Health Center - Southwest,Amlodipine (5mg),131,$8
+Memorial Hermann Neighborhood Health Center - Southwest,Albuterol (inhaler),137,$6
+Memorial Hermann Neighborhood Health Center - Southwest,Hydrochlorothiazide (25mg),174,$3
+Memorial Hermann Neighborhood Health Center - Southwest,Simvastatin (20mg),35,$6
+Memorial Hermann Neighborhood Health Center - Southwest,Omeprazole (20mg capsules),17,$6
+Spring Branch Community Health Center,Ibuprofen (200mg),59,$2
+Spring Branch Community Health Center,Acetaminophen (500mg),13,$8
+Spring Branch Community Health Center,Amoxicillin (500mg capsules),79,$6
+Spring Branch Community Health Center,Lisinopril (10mg),14,$3
+Spring Branch Community Health Center,Metformin (500mg),195,$4
+Spring Branch Community Health Center,Amlodipine (5mg),16,$5
+Spring Branch Community Health Center,Albuterol (inhaler),31,$10
+Spring Branch Community Health Center,Hydrochlorothiazide (25mg),58,$4
+Spring Branch Community Health Center,Simvastatin (20mg),171,$6
+Spring Branch Community Health Center,Omeprazole (20mg capsules),108,$8
+The Harris Center for Mental Health and IDD,Ibuprofen (200mg),44,$3
+The Harris Center for Mental Health and IDD,Acetaminophen (500mg),27,$4
+The Harris Center for Mental Health and IDD,Amoxicillin (500mg capsules),122,$9
+The Harris Center for Mental Health and IDD,Lisinopril (10mg),98,$3
+The Harris Center for Mental Health and IDD,Metformin (500mg),130,$8
+The Harris Center for Mental Health and IDD,Amlodipine (5mg),192,$1
+The Harris Center for Mental Health and IDD,Albuterol (inhaler),39,$4
+The Harris Center for Mental Health and IDD,Hydrochlorothiazide (25mg),125,$9
+The Harris Center for Mental Health and IDD,Simvastatin (20mg),78,$3
+The Harris Center for Mental Health and IDD,Omeprazole (20mg capsules),30,$10
+Acres Home Health Center,Ibuprofen (200mg),36,$4
+Acres Home Health Center,Acetaminophen (500mg),27,$8
+Acres Home Health Center,Amoxicillin (500mg capsules),106,$3
+Acres Home Health Center,Lisinopril (10mg),135,$5
+Acres Home Health Center,Metformin (500mg),93,$1
+Acres Home Health Center,Amlodipine (5mg),140,$7
+Acres Home Health Center,Albuterol (inhaler),139,$9
+Acres Home Health Center,Hydrochlorothiazide (25mg),21,$5
+Acres Home Health Center,Simvastatin (20mg),194,$7
+Acres Home Health Center,Omeprazole (20mg capsules),110,$9
+Aldine Health Center,Ibuprofen (200mg),43,$8
+Aldine Health Center,Acetaminophen (500mg),92,$2
+Aldine Health Center,Amoxicillin (500mg capsules),169,$4
+Aldine Health Center,Lisinopril (10mg),149,$2
+Aldine Health Center,Metformin (500mg),100,$6
+Aldine Health Center,Amlodipine (5mg),96,$7
+Aldine Health Center,Albuterol (inhaler),87,$6
+Aldine Health Center,Hydrochlorothiazide (25mg),117,$8
+Aldine Health Center,Simvastatin (20mg),159,$7
+Aldine Health Center,Omeprazole (20mg capsules),60,$4
+Baytown Health Center,Ibuprofen (200mg),110,$7
+Baytown Health Center,Acetaminophen (500mg),45,$9
+Baytown Health Center,Amoxicillin (500mg capsules),144,$5
+Baytown Health Center,Lisinopril (10mg),160,$7
+Baytown Health Center,Metformin (500mg),78,$3
+Baytown Health Center,Amlodipine (5mg),15,$4
+Baytown Health Center,Albuterol (inhaler),36,$10
+Baytown Health Center,Hydrochlorothiazide (25mg),75,$9
+Baytown Health Center,Simvastatin (20mg),96,$3
+Baytown Health Center,Omeprazole (20mg capsules),71,$4
+Danny Jackson Health Center,Ibuprofen (200mg),134,$5
+Danny Jackson Health Center,Acetaminophen (500mg),147,$3
+Danny Jackson Health Center,Amoxicillin (500mg capsules),196,$8
+Danny Jackson Health Center,Lisinopril (10mg),43,$3
+Danny Jackson Health Center,Metformin (500mg),155,$7
+Danny Jackson Health Center,Amlodipine (5mg),175,$4
+Danny Jackson Health Center,Albuterol (inhaler),150,$9
+Danny Jackson Health Center,Hydrochlorothiazide (25mg),22,$8
+Danny Jackson Health Center,Simvastatin (20mg),187,$1
+Danny Jackson Health Center,Omeprazole (20mg capsules),182,$6
+E. A. 'Squatty' Lyons Health Center,Ibuprofen (200mg),178,$7
+E. A. 'Squatty' Lyons Health Center,Acetaminophen (500mg),178,$2
+E. A. 'Squatty' Lyons Health Center,Amoxicillin (500mg capsules),134,$5
+E. A. 'Squatty' Lyons Health Center,Lisinopril (10mg),115,$7
+E. A. 'Squatty' Lyons Health Center,Metformin (500mg),57,$10
+E. A. 'Squatty' Lyons Health Center,Amlodipine (5mg),64,$3
+E. A. 'Squatty' Lyons Health Center,Albuterol (inhaler),160,$4
+E. A. 'Squatty' Lyons Health Center,Hydrochlorothiazide (25mg),142,$9
+E. A. 'Squatty' Lyons Health Center,Simvastatin (20mg),120,$7
+E. A. 'Squatty' Lyons Health Center,Omeprazole (20mg capsules),50,$5
+El Franco Lee Health Center,Ibuprofen (200mg),51,$1
+El Franco Lee Health Center,Acetaminophen (500mg),161,$2
+El Franco Lee Health Center,Amoxicillin (500mg capsules),42,$9
+El Franco Lee Health Center,Lisinopril (10mg),166,$1
+El Franco Lee Health Center,Metformin (500mg),89,$4
+El Franco Lee Health Center,Amlodipine (5mg),59,$7
+El Franco Lee Health Center,Albuterol (inhaler),40,$4
+El Franco Lee Health Center,Hydrochlorothiazide (25mg),156,$2
+El Franco Lee Health Center,Simvastatin (20mg),11,$6
+El Franco Lee Health Center,Omeprazole (20mg capsules),69,$1
+Settegast Health Center,Ibuprofen (200mg),192,$4
+Settegast Health Center,Acetaminophen (500mg),193,$4
+Settegast Health Center,Amoxicillin (500mg capsules),172,$7
+Settegast Health Center,Lisinopril (10mg),11,$5
+Settegast Health Center,Metformin (500mg),176,$5
+Settegast Health Center,Amlodipine (5mg),114,$8
+Settegast Health Center,Albuterol (inhaler),12,$5
+Settegast Health Center,Hydrochlorothiazide (25mg),173,$6
+Settegast Health Center,Simvastatin (20mg),133,$3
+Settegast Health Center,Omeprazole (20mg capsules),40,$9

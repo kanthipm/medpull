@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+
+{% if page == 'register' %}
+
+<div class="log">
+    <h1>Sign up for MedPull</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Register">
+    </form>
+</div>
+
+{% else %}
+
+<div class="log">
+    <h1>Welcome back</h1>
+    <h2>Sign in to your account</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name = "username" placeholder = "Enter your username"></input>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name = "password" placeholder = "Enter your password"></input>
+        <input type="submit" value="Login">
+        Dont have an account? <a href="{% url 'app:register' %}">Sign up here!</a>
+    </form>
+</div>
+{% endif %}
+
+{% endblock content %}

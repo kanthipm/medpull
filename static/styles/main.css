@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Judson&display=swap');
+
+h3 {
+  font-size: 2rem;
+}
+
+input {
+  min-width: 12rem;
+  margin: 1rem 0;
+}
+
+a {
+  color: #71c6dd;
+  text-decoration: None;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  display: None;
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.topnav a.active {
+  background-color: #333;
+  color: white;
+}
+
+:root {
+    --primary: #fffcf3;
+    --secondary: #fff;
+    --font-color: #000;
+    --accent: #f5f5dc;
+}
+
+nav > a {
+    color: var(--font-color)
+}
+
+body {
+    color: var(--font-color);
+    font-family: sans-serif;
+    background: var(--primary);
+    margin: 0;
+}
+
+.wrapper {
+    margin: 8px;
+}
+
+.home-container, .profile-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 2.25rem;
+}
+
+.room-container{
+    margin: 1rem;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 5px 10px #0003;
+}
+
+.room-container > div:first-child {
+    padding: 1rem;
+    background-color: var(--accent);
+}
+
+.home-container > div:nth-child(2), .profile-container > div:nth-child(2) {
+    padding: 0 2rem;
+    background-color: var(--accent);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 5px 10px #0003;
+}
+
+.home-container > div:nth-child(2) > article, .profile-container > div:nth-child(2) > article {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px #0003;
+    background-color: var(--secondary);
+}
+
+.home-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+input[type="text"], input[type="password"] {
+    min-height: 2rem;
+    min-width: 12rem;
+}
+
+input[type="submit"], button {
+    min-height: 2rem;
+    min-width: 6rem;
+}
+
+article {
+  padding: 1rem 0;
+  margin: 1rem;
+  background-color: var(--accent);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px #0003;
+  border-radius: 6px;
+}
+
+hr {
+    height: 2px;
+    margin: 2.25rem 0;
+    border: none;
+    background-color: var(--font-color);
+}
+
+a {
+    color: var(--font-color);
+    text-decoration: none;
+}
+
+nav {
+    height: 4rem;
+    max-width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: bold;
+    background-color: var(--accent);
+    border: 1px solid #0002;
+    /*border-radius: 6px;*/
+  }
+  
+  nav a:first-child {
+    font-size: 1.5rem;
+    font-family: "Judson";
+}
+
+nav a:nth-child(2) {
+    margin-left: auto;
+    padding: 8px 12px;
+}
+
+nav a:last-of-type {
+  background-color: var(--primary);
+  border: 1px solid var(--font-color);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.browse a {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem 0;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    background-color: var(--secondary);
+    border-left: 10px solid #19a900;
+}
+
+.browse a:hover {
+  border: 1px solid var(--font-color);
+}
+
+.log {
+    width: 50vw;
+    margin: 0 auto;
+}
+
+.log input {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.log > form > input:last-of-type {
+    padding: 0.5rem;
+    color: var(--font-color);
+    border: 1px solid var(--font-color);
+    border-radius: 6px;
+    background-color: var(--accent);
+}
+
+/*@media (prefers-color-scheme: light) {
+    body {
+        --primary: #fffcf3;
+        --secondary: #fff;
+        --font-color: #000;
+        --accent: #f5f5dc;
+    }
+    nav > a {
+        color: var(--font-color)
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        --font-color: #fff;
+        --accent: #313131;
+    }
+}*/

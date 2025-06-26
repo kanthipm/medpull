@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="margin-top: 40px; padding: 20px;">
+    <center>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Upload PDF">
+        </form>
+    </center>
+
+    {% if getFile and getFile.uploaded_file %}
+        <div style="display: flex; gap: 40px; margin-top: 40px;">
+            <div style="flex: 1; max-width: 50%; overflow-y: auto;">
+                <h3>Extracted Text:</h3>
+                {% if form_fields %}
+                    <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ form_fields|json_script:"formFields" }}</pre>
+                    <h4>Inferred Form Fields:</h4>
+                    <ul>
+                        {% for name, value in form_fields.items %}
+                            <li><strong>{{ name }}</strong>: {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No form fields inferred.</p>
+                {% endif %}
+            </div>
+            <div style="flex: 1;">
+                <h3>Uploaded PDF:</h3>
+                <p>
+                    <a href="{{ getFile.uploaded_file.url }}" target="_blank">
+                        Open {{ getFile.uploaded_file.name }} in a new tab
+                    </a>
+                </p>
+                <iframe src="{{ getFile.uploaded_file.url }}" width="100%" height="900" style="border: 1px solid black;"></iframe>
+            </div>
+        </div>
+        {% if dynamic_form %}
+        <h3>Fill Out Extracted Fields:</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ dynamic_form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
