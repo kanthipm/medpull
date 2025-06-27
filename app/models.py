@@ -20,3 +20,7 @@ class ExtractedForm(models.Model):
     field_data = models.JSONField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+class DynamicFormSubmission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    data = models.JSONField()
+

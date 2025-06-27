@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from django.conf import settings
 from django.utils.text import get_valid_filename
-from .models import UploadedFile
-from .forms import InformationForm, UploadFileForm
+from .models import UploadedFile, DynamicFormSubmission
+from .forms import InformationForm, UploadFileForm, DynamicForm
 from django import forms
 
 import fitz  
@@ -84,8 +84,7 @@ def translate_text_with_openai(text, lang):
     prompt = f"""Translate this to {lang}:
             \n{text[:3000]}"""
 
-    api_key = os.getenv("sk")
-    client = OpenAI(api_key=api_key)
+    api_key = os.getenv("OPENAI_API_KEY")
 
     try:
         response = client.chat.completions.create(
@@ -139,21 +138,6 @@ def upload_translate_view(request):
         'selected_static_form': request.POST.get('static_form', '')
     })
 
-
-def build_dynamic_form(fields: dict):
-    fields_dict = {}
-    for label in fields:
-        field_label = label.strip(":")
-        fields_dict[field_label] = forms.CharField(
-            required=False,
-            label=field_label,
-            widget=forms.TextInput(attrs={"class": "form-control"})
-        )
-
-    DynamicForm = type("DynamicForm", (forms.Form,), fields_dict)
-    return DynamicForm
-
-
 def infer_form_fields_with_llm(text):
     prompt = f"""
 You are an intelligent form assistant. Your job is to extract structured fields from messy, OCR-style or text-extracted PDF documents.
@@ -206,8 +190,7 @@ Text:
 \"\"\"
 """
 
-    api_key = "sk"
-    client = OpenAI(api_key=api_key)
+    api_key = "OPENAI_API_KEY"
     
     try:
         response = client.chat.completions.create(
@@ -231,20 +214,32 @@ def upload_file(request):
     dynamic_form = None
 
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            file = request.FILES['file']
-            uploaded_instance = UploadedFile.objects.create(uploaded_file=file)
-            if_uploaded = True
-            file_path = uploaded_instance.uploaded_file.path
+        if 'file' in request.FILES:
+            form = UploadFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                file = request.FILES['file']
+                uploaded_instance = UploadedFile.objects.create(uploaded_file=file)
+                if_uploaded = True
+                file_path = uploaded_instance.uploaded_file.path
 
-            with fitz.open(file_path) as doc:
-                full_text = "\n".join([page.get_text("text") for page in doc])
+                with fitz.open(file_path) as doc:
+                    full_text = "\n".join([page.get_text("text") for page in doc])
 
-            inferred_fields = infer_form_fields_with_llm(full_text)
+                inferred_fields = infer_form_fields_with_llm(full_text)
+                request.session['inferred_fields'] = inferred_fields  
+                DynamicFormClass = DynamicForm(field_dict=inferred_fields)
+                dynamic_form = DynamicFormClass()
+        else:
+            inferred_fields = request.session.get('inferred_fields', {})
+            dynamic_form = DynamicForm(request.POST, field_dict=inferred_fields)
 
-            DynamicFormClass = build_dynamic_form(inferred_fields)
-            dynamic_form = DynamicFormClass()
+            if dynamic_form.is_valid():
+                DynamicFormSubmission.objects.create(
+                    user=request.user,
+                    data=dynamic_form.cleaned_data
+                )
+                messages.success(request, "Form saved successfully!")
+                return redirect('app:home') 
     else:
         form = UploadFileForm()
 
@@ -257,3 +252,4 @@ def upload_file(request):
     }
 
     return render(request, 'app/extract_document.html', context)
+
