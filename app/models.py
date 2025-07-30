@@ -23,4 +23,3 @@ class ExtractedForm(models.Model):
 class DynamicFormSubmission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     data = models.JSONField()
-

@@ -2,9 +2,11 @@
 
 {% block content %}
 <div style="margin-top: 40px; padding: 20px;">
+
     <center>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" name="action" value="upload">
             {{ form.as_p }}
             <input type="submit" value="Upload PDF">
         </form>
@@ -12,16 +14,30 @@
 
     {% if getFile and getFile.uploaded_file %}
         <div style="display: flex; gap: 40px; margin-top: 40px;">
+        
             <div style="flex: 1; max-width: 50%; overflow-y: auto;">
                 {% if dynamic_form %}
-                <h3>Fill Out Extracted Fields:</h3>
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ dynamic_form.as_p }}
-                    <button type="submit">Save</button>
-                </form>
-        {% endif %}
+                    <h3>Fill Out Extracted Fields:</h3>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ dynamic_form.as_p }}
+                        <button type="submit" name="action" value="save">Submit</button>
+                        <button type="submit" name="action" value="autofill_ai">Autofill with AI</button>
+                    </form>
+                {% endif %}
+
+                <!-- RAG Chat UI -->
+                <div id="chat-container" style="margin-top: 20px; border:1px solid #ddd; padding: 10px; max-height: 400px; overflow-y: auto; font-family: Arial, sans-serif;">
+                    <h3>Ask questions about this PDF:</h3>
+                    <div id="chat-log" style="height: 320px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; margin-bottom: 8px; background: #f9f9f9;"></div>
+                    <form id="chat-form" autocomplete="off">
+                        {% csrf_token %}
+                        <input type="text" id="chat-input" placeholder="Ask a question about this PDF..." style="width: 80%; padding: 8px; margin-right: 4px;" required />
+                        <button type="submit" style="padding: 8px;">Send</button>
+                    </form>
+                </div>
             </div>
+
             <div style="flex: 1;">
                 <h3>Uploaded PDF:</h3>
                 <p>
@@ -34,4 +50,50 @@
         </div>
     {% endif %}
 </div>
+
+<script>
+    const chatLog = document.getElementById('chat-log');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const question = chatInput.value.trim();
+        if (!question) return;
+
+        // Append user's question to chat log
+        const userMessage = document.createElement('div');
+        userMessage.textContent = 'You: ' + question;
+        userMessage.style.fontWeight = 'bold';
+        userMessage.style.marginBottom = '8px';
+        chatLog.appendChild(userMessage);
+        chatInput.value = '';
+        chatLog.scrollTop = chatLog.scrollHeight;
+
+        try {
+            const response = await fetch("{% url 'app:rag_query' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({ question }),
+            });
+
+            const data = await response.json();
+
+            const botMessage = document.createElement('div');
+            botMessage.textContent = 'AI: ' + (data.answer || 'Sorry, no answer could be generated.');
+            botMessage.style.marginBottom = '12px';
+            chatLog.appendChild(botMessage);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        } catch (error) {
+            console.error('Error:', error);
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = 'AI: Error contacting server.';
+            errorMessage.style.color = 'red';
+            chatLog.appendChild(errorMessage);
+        }
+    });
+</script>
 {% endblock %}

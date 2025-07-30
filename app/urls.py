@@ -11,5 +11,6 @@ urlpatterns = [
     path('register/', registerUser, name='register'),
     path('information/', fillOutInfo, name='information'),
     path('translate/', upload_translate_view, name='translate'),
-    path('extract/', upload_file, name='extract') 
+    path('extract/', upload_file, name='extract'),
+    path('rag-query/', views.rag_query, name='rag-query')
 ] 
